@@ -74,25 +74,25 @@ let aboutImage=document.createElement("img");
   aboutDiv.appendChild(firstcol);
 
   let secondcol=document.createElement("div");
-  secondcol.setAttribute("class","col-md-6 d-flex flex-column");
+  secondcol.setAttribute("class","col-md-6 d-flex flex-column justify-content-center align-items-center");
   secondcol.setAttribute("style","height: 450px; width:70%;")
 
   let heading=document.createElement("h2");
   heading.innerHTML="<strong style='color: green;'>About Us</strong>";
-  heading.setAttribute("class"," d-flex justify-content-center align-itmes-center mt-3");
+  heading.setAttribute("class"," d-flex  mt-3");
   heading.setAttribute("style","text-align:center;")
   secondcol.appendChild(heading);
 
   let discription=document.createElement("p");
   discription.setAttribute("style","font-size:17px; font-weight:300px; padding: 2px;margin-left:5px; margin-top: 40px; position:relative;");
-  discription.setAttribute("class","d-flex justify-content-evenly align-items-center  p-2")
+  discription.setAttribute("class","d-flex  p-2")
   discription.innerHTML=`The Nutrify app is a simple and efficient tool designed to help you track your daily caloric intake and support your health goals. Whether you’re aiming to lose weight, maintain your current weight, or build muscle, our app provides personalized calorie recommendations based on the type of food that what food gives you how many calorie . With an easy-to-use interface, you can search your meals, monitor nutrients, and stay on top of your health journey—all in one convenient place.
   Our app tells us the amount of clories your food content(per 100gm)and also go for reccomended the exercises mention to burn calorie intake. First You have to sign-up then sig-in and you are ready to use the app.`
   
 
   let backButton=document.createElement("button");
   backButton.setAttribute("class", "btn btn-primary m-3");
-  backButton.setAttribute("style","height:40px; width:100px; margin-left:50px;")
+  backButton.setAttribute("style","height:40px; width:100px; margin-left:90px;")
   backButton.textContent = "Back";
   backButton.addEventListener("click", function (){
     maindiv.removeChild(aboutDiv);
@@ -107,7 +107,6 @@ let aboutImage=document.createElement("img");
 
 function createSignInForm() {
   let maindiv = document.getElementById("main");
-// maindiv.setAttribute("style"," width:100%; height: 100%; background-color:#F6FCDF;");
   let signInFormDiv = document.createElement("div");
   signInFormDiv.setAttribute("class", "signInForm");
   signInFormDiv.setAttribute("id", "signInFormDiv");
@@ -423,7 +422,7 @@ function MiddleComponent() {
   let productDiv = document.getElementById("productDiv");
 
   let centerComponent = document.createElement("div");
-  centerComponent.setAttribute("class", "d-flex col-md-6 flex-column container mt-2");
+  centerComponent.setAttribute("class", "d-flex col-md-6 flex-column container-fluid mt-2");
   centerComponent.setAttribute("style", "padding-bottom: 15px;");
   centerComponent.setAttribute("id", "card-component");
 
@@ -481,7 +480,7 @@ function DataComponent(data, centerRow) {
     //itemcontainer maindiv
       let itemContainer = document.createElement("div");
       itemContainer.setAttribute("class", "d-flex justify-content-between align-items-start mt-2 p-2");
-      itemContainer.setAttribute("style", "border:1px solid black;box-shadow:10px 10px 10px grey; width:100%; background-color:#f9f9f9;");
+      itemContainer.setAttribute("style", "border-top:1px solid black;border-right:1px solid black;border-left:1px solid black; width:100%; background-color:#f9f9f9;");
 
       
 
@@ -535,6 +534,57 @@ function DataComponent(data, centerRow) {
 
       itemContainer.appendChild(burnSection);
      centerRow.appendChild(itemContainer);
+
+      // Now, we add the chart
+    let chartContainer = document.createElement("div");
+    chartContainer.setAttribute("style", "width:100%; height: 300px; background-color:white;border-bottom:1px solid black;border-right:1px solid black;border-left:1px solid black;");
+    let canvas = document.createElement("canvas");
+    chartContainer.appendChild(canvas);
+    centerRow.appendChild(chartContainer);
+
+    // Prepare the data for the chart
+    const labels = ["Carbohydrates","Cholesterol", "Saturated Fat", "Total Fat", "Fiber Content","Potassium","Protien","Sodium","Sugar"];
+    const values = [
+      product.carbohydrates_total_g,
+      product.cholesterol_mg/1000,
+      product.fat_saturated_g,
+      product.fat_total_g,
+      product.fiber_g,
+      product.potassium_mg/1000,
+      product.protein_g,
+      product.sodium_mg/1000,
+      product.sugar_g
+    ];
+
+    // Create the chart
+    new Chart(canvas, {
+      type: 'bar', // Bar chart
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Nutritional Values (per 100g)',
+          data: values,
+          backgroundColor: ['#FF4545', '#FFBD73', '#BFECFF', '#F3E200', '#D700FF','#FCF596'],
+          borderColor: ['#FF4545', '#FFBD73', '#BFECFF', '#F3E200', '#D700FF','#FCF596'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: Math.max(...values) + (Math.max(...values) * 0.1) // dynamically set the max value for y-axis
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+
   }else{
      let noResults=document.createElement("p");
      noResults.textContent="No matching item found. Try a different food item.";
