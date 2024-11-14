@@ -90,17 +90,24 @@ let aboutImage=document.createElement("img");
   Our app tells us the amount of clories your food content(per 100gm)and also go for reccomended the exercises mention to burn calorie intake. First You have to sign-up then sig-in and you are ready to use the app.`
   
 
-  
+  let backButton=document.createElement("button");
+  backButton.setAttribute("class", "btn btn-primary m-3");
+  backButton.setAttribute("style","height:40px; width:100px; margin-left:50px;")
+  backButton.textContent = "Back";
+  backButton.addEventListener("click", function (){
+    maindiv.removeChild(aboutDiv);
+    Home();
+  });
+
   secondcol.appendChild(discription); 
-  
-  
+  secondcol.appendChild(backButton);
   aboutDiv.appendChild(secondcol);
   maindiv.appendChild(aboutDiv);
 }
 
 function createSignInForm() {
   let maindiv = document.getElementById("main");
- //maindiv.setAttribute("style"," width:100%; height: 100%; background-color:#F6FCDF;");
+// maindiv.setAttribute("style"," width:100%; height: 100%; background-color:#F6FCDF;");
   let signInFormDiv = document.createElement("div");
   signInFormDiv.setAttribute("class", "signInForm");
   signInFormDiv.setAttribute("id", "signInFormDiv");
@@ -217,6 +224,11 @@ function createSignUpForm() {
   let smallTag=document.createElement("small");
   smallTag.setAttribute("id","passwordError");
 
+  //button div
+  let buttondiv=document.createElement("div");
+ // buttondiv.setAttribute("style","display:flex;");
+  buttondiv.setAttribute("class"," d-flex justify-content-evenly align-items-center")
+ 
   // Sign Up button
   let signUpButton = document.createElement("button");
   signUpButton.setAttribute("type", "button");
@@ -224,7 +236,18 @@ function createSignUpForm() {
   signUpButton.textContent = "Sign Up";
   signUpButton.addEventListener("click", function(){
     handleSignUp();
-  }); // Adding event listener for Sign Up
+  }); 
+  buttondiv.appendChild(signUpButton);// Adding event listener for Sign Up
+
+  let backButton=document.createElement("button");
+  backButton.setAttribute("class", "btn btn-primary m-3");
+  backButton.setAttribute("style","height:35px; width:90px;")
+  backButton.textContent = "Back";
+  backButton.addEventListener("click", function (){
+    maindiv.removeChild(signUpFormDiv);
+   createSignInForm();
+  });
+  buttondiv.appendChild(backButton);
 
   // Append elements to the Sign Up form
   signUpFormDiv.appendChild(signUpHeading);
@@ -234,7 +257,7 @@ function createSignUpForm() {
   signUpFormDiv.appendChild(passwordLabel);
   signUpFormDiv.appendChild(passwordInput);
   signUpFormDiv.appendChild(smallTag);
-  signUpFormDiv.appendChild(signUpButton);
+  signUpFormDiv.appendChild(buttondiv);
 
   // Append form to the main container
   maindiv.appendChild(signUpFormDiv);
